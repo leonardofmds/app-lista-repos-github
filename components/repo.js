@@ -32,12 +32,16 @@ export default class Repo extends Component {
 const styles = StyleSheet.create({
     repo:
     {
+        flex:1,
+        flexWrap:'wrap',
         padding: 20,
         backgroundColor: '#FFF',
         marginBottom: 20,
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        
     },
     repoImage:
     {
@@ -47,7 +51,8 @@ const styles = StyleSheet.create({
     },
     repoInfo:
     {
-        marginLeft: 10,
+        marginLeft: 20,
+        alignItems:'flex-start',
     },
     repoTittle:
     {
@@ -68,7 +73,8 @@ const styles = StyleSheet.create({
     },
     deleteButtonContainer:
     {
-        backgroundColor:'#CCC',
-        marginLeft:100,
+        //flexDirection:'row',
+        //justifyContent:'flex-end',
+        //backgroundColor:'#CCC',
     },
 });
