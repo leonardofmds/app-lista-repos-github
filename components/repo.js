@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
 export default class Repo extends Component {
     render() {
         return (
             <View style={styles.repo}>
-                <Image
-                    style={styles.repoImage}
-                    source={{ uri: this.props.data.thumbnail }}
-                />
+                <TouchableOpacity onPress={() => { this.props.onLink(this.props.data.authorUrl) }}>
+                    <Image
+                        style={styles.repoImage}
+                        source={{ uri: this.props.data.thumbnail }}
+                    />
+                </TouchableOpacity>
                 <View style={styles.repoInfo}>
-                    <Text style={styles.repoTittle}> {this.props.data.tittle} </Text>
+                    <TouchableOpacity onPress={() => { this.props.onLink(this.props.data.repoUrl) }}>
+                        <Text style={styles.repoTittle}> {this.props.data.tittle} </Text>
+                    </TouchableOpacity>
                     <Text style={styles.repoAuthor}> {this.props.data.author} </Text>
                 </View>
 
                 <View style={styles.deleteButtonContainer}>
                     <TouchableOpacity onPress={() => {
-                       this.props.onRemove(this.props.data.id);
+                        this.props.onRemove(this.props.data.id);
                     }}>
                         <Text style={styles.deleteButtonText}>Excluir</Text>
                     </TouchableOpacity>
                 </View>
-
-
 
             </View>
         );
@@ -32,8 +34,8 @@ export default class Repo extends Component {
 const styles = StyleSheet.create({
     repo:
     {
-        flex:1,
-        flexWrap:'wrap',
+        flex: 1,
+        flexWrap: 'wrap',
         padding: 20,
         backgroundColor: '#FFF',
         marginBottom: 20,
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        
+
     },
     repoImage:
     {
@@ -51,8 +53,9 @@ const styles = StyleSheet.create({
     },
     repoInfo:
     {
-        marginLeft: 20,
-        alignItems:'flex-start',
+        flex: 1,
+        justifyContent: 'center',
+        marginHorizontal: 10,
     },
     repoTittle:
     {
@@ -67,14 +70,11 @@ const styles = StyleSheet.create({
     },
     deleteButtonText:
     {
-        fontSize:14,
+        fontSize: 14,
         fontWeight: 'bold',
-        //backgroundColor:'#CCC',
     },
     deleteButtonContainer:
     {
-        //flexDirection:'row',
-        //justifyContent:'flex-end',
-        //backgroundColor:'#CCC',
+
     },
 });

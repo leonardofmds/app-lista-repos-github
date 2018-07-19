@@ -13,6 +13,7 @@ import {
   Platform,
   TouchableOpacity,
   AsyncStorage,
+  Linking,
 } from 'react-native';
 
 import Repo from './components/repo';
@@ -32,13 +33,16 @@ export default class App extends Component {
     this.setState({repos});
   }
 
+  _link = (url) =>
+  {
+    Linking.openURL(url);
+  }
+
   _removeRepository = async (repoId) =>
   {
 
     
     let repos = this.state.repos;
-
-    console.log(repos); 
 
     for(var i = 0; i< repos.length; i++)
     {
@@ -48,25 +52,32 @@ export default class App extends Component {
       }
     }
 
-    this.setState({repos});
+    this.setState({repos}); 
 
     await AsyncStorage.setItem('@Minicurso:repositories',JSON.stringify(this.state.repos));
   }
 
   _addRepository = async (newRepoText) => 
   {
-
     try{
       const repoCall = await fetch(`http://api.github.com/repos/${newRepoText}`);
 
-      const response = await repoCall.json();
+      const response = await repoCall.json(); 
+
+    if(this.state.repos.find(rep=> rep.id===response.id))
+    {
+      alert('Repositorio já adicionado');
+      return;
+    }
 
     const repository =
     {
-      id: response.id,
+      id: response.id, 
       thumbnail: response.owner.avatar_url,
       tittle: response.name,
       author: response.owner.login,
+      repoUrl: response.html_url,
+      authorUrl: response.owner.html_url,
     };
 
     this.setState(
@@ -86,6 +97,7 @@ export default class App extends Component {
     catch(error)
     {
       alert('Repositório Inválido');
+      return false;
     }
       
   };
@@ -99,7 +111,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
           <View style={styles.header}> 
-              <Text style = {styles.headerText}> Repositórios Github xD </Text>
+              <Text style = {styles.headerText}> Repositórios Favoritos Github xD </Text>
               <TouchableOpacity onPress={() => 
               {
                 this.setState({modalVisible:true})       
@@ -109,7 +121,7 @@ export default class App extends Component {
           </View>
 
           <ScrollView contentContainerStyle={styles.repoList}>
-            { this.state.repos.map( repo => <Repo key={repo.id} onRemove={this._removeRepository} data= {repo}/>)}
+            { this.state.repos.map( repo => <Repo key={repo.id} onLink={this._link} onRemove={this._removeRepository} data= {repo}/>)}
           </ScrollView>
 
           <NewRepoModal 
