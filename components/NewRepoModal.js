@@ -13,10 +13,13 @@ import {
 
 export default class NewRepoModal extends Component {
 
-    // _fail = async (did) => 
-    // {
+    _testSubmit = async (did) => 
+    {
+        const q = await did;
+        if(q===true)
+            this.setState({ newRepoText: '' });
 
-    // }
+    }
 
     state =
         {
@@ -51,8 +54,8 @@ export default class NewRepoModal extends Component {
                             <TouchableOpacity
                                 style={[styles.button, styles.submitButton]}
                                 onPress={() => {
-                                    this.props.onAdd(this.state.newRepoText);
-                                    this.setState({ newRepoText: '' }); 
+                                    this._testSubmit(this.props.onAdd(this.state.newRepoText));
+                                    //this.setState({ newRepoText: '' });
                                 }}
                             >
                                 <Text style={styles.buttonText}>Adicionar</Text>

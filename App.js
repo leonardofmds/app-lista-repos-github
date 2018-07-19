@@ -67,7 +67,7 @@ export default class App extends Component {
     if(this.state.repos.find(rep=> rep.id===response.id))
     {
       alert('Repositorio já adicionado');
-      return;
+      return false;
     }
 
     const repository =
@@ -92,7 +92,7 @@ export default class App extends Component {
     )
 
     await AsyncStorage.setItem('@Minicurso:repositories',JSON.stringify(this.state.repos));
-
+    return true;
     }
     catch(error)
     {
